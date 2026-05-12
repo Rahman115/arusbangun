@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ArusBangun — Solusi Bangun dan Renovasi</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue-900: #0A2342;
+    --blue-800: #0D47A1;
+    --blue-700: #1565C0;
+    --blue-600: #1976D2;
+    --blue-500: #2196F3;
+    --blue-400: #42A5F5;
+    --blue-100: #E3F2FD;
+    --blue-50:  #F0F8FF;
+    --sky:      #00B4D8;
+    --sky-lite: #90E0EF;
+    --white:    #FFFFFF;
+    --gray-900: #111827;
+    --gray-700: #374151;
+    --gray-500: #6B7280;
+    --gray-200: #E5E7EB;
+    --gray-100: #F3F4F6;
+    --gold:     #F0A500;
+    --radius:   16px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--white);
+    color: var(--gray-900);
+    overflow-x: hidden;
+  }
+
+  /* LANGUAGE SWITCHER */
+  .lang-switcher {
+    display: flex;
+    gap: 8px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 40px;
+    padding: 4px 8px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(21,101,192,0.15);
+  }
+  .lang-btn {
+    background: transparent;
+    border: none;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--gray-700);
+  }
+  .lang-btn.active {
+    background: var(--blue-700);
+    color: white;
+    box-shadow: 0 2px 8px rgba(21,101,192,0.3);
+  }
+  .lang-btn:hover:not(.active) {
+    background: var(--blue-100);
+    color: var(--blue-800);
+  }
+
+  /* ── NAVBAR ─────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 72px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(21,101,192,0.1);
+    box-shadow: 0 2px 20px rgba(13,71,161,0.06);
+    gap: 20px;
+  }
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-icon {
+    width: 38px; height: 38px;
+    background: var(--blue-700);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 800;
+    color: white;
+    letter-spacing: -1px;
+  }
+  .nav-logo-text { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--blue-800); letter-spacing: -0.5px; }
+  .nav-logo-sub  { font-size: 9px; font-weight: 500; color: var(--blue-600); letter-spacing: 2px; text-transform: uppercase; display: block; margin-top: -2px; }
+
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { text-decoration: none; font-size: 14px; font-weight: 600; color: var(--gray-700); transition: color .2s; }
+  .nav-links a:hover { color: var(--blue-700); }
+
+  .nav-cta {
+    background: var(--blue-700); color: white;
+    padding: 10px 22px; border-radius: 50px;
+    font-size: 13px; font-weight: 700;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all .25s;
+    box-shadow: 0 4px 14px rgba(21,101,192,0.35);
+  }
+  .nav-cta:hover { background: var(--blue-800); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(21,101,192,0.45); }
+
+  /* ── HERO & autres sections (style identique) ── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--blue-900) 0%, #1a3a6b 45%, var(--blue-700) 100%);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 5vw 80px;
+    gap: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 70% 50%, rgba(0,180,216,0.12) 0%, transparent 70%);
+  }
+  .hero-dots {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 50px; padding: 6px 16px;
+    font-size: 12px; font-weight: 600; color: var(--sky-lite);
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .hero-badge::before { content: '●'; font-size: 8px; color: var(--sky); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  h1.hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 5vw, 62px);
+    font-weight: 800;
+    color: white;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+  }
+  h1.hero-title span { color: var(--sky); }
+  .hero-desc {
+    font-size: 16px; font-weight: 400; color: rgba(255,255,255,0.72);
+    line-height: 1.7; margin-bottom: 36px; max-width: 460px;
+  }
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--sky); color: var(--blue-900);
+    padding: 14px 30px; border-radius: 50px;
+    font-size: 14px; font-weight: 800; text-decoration: none;
+    box-shadow: 0 6px 24px rgba(0,180,216,0.4);
+    transition: all .25s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,180,216,0.5); }
+  .btn-outline {
+    border: 1.5px solid rgba(255,255,255,0.3); color: white;
+    padding: 14px 30px; border-radius: 50px;
+    font-size: 14px; font-weight: 600; text-decoration: none;
+    transition: all .25s; backdrop-filter: blur(4px);
+    background: rgba(255,255,255,0.05);
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.5); }
+  .hero-stats {
+    display: flex; gap: 32px; margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: white; line-height: 1; }
+  .stat-num span { color: var(--sky); }
+  .stat-lbl { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  .hero-visual { position: relative; z-index: 2; }
+  .hero-card-main {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 24px;
+    padding: 28px;
+    backdrop-filter: blur(16px);
+    position: relative;
+  }
+  .hero-card-label {
+    font-size: 11px; font-weight: 700; color: var(--sky);
+    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hero-card-label::before { content: ''; width: 20px; height: 2px; background: var(--sky); display: inline-block; }
+  .project-list { display: flex; flex-direction: column; gap: 12px; }
+  .project-item {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.05); border-radius: 14px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: all .2s;
+  }
+  .project-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .pi-blue  { background: rgba(33,150,243,0.25); }
+  .pi-sky   { background: rgba(0,180,216,0.25); }
+  .pi-gold  { background: rgba(240,165,0,0.25); }
+  .project-info { flex: 1; min-width: 0; }
+  .project-name { font-size: 13px; font-weight: 700; color: white; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .project-meta { font-size: 11px; color: rgba(255,255,255,0.5); }
+  .project-badge { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 50px; white-space: nowrap; }
+  .badge-active  { background: rgba(0,230,118,0.15); color: #69F0AE; border: 1px solid rgba(0,230,118,0.25); }
+  .badge-waiting { background: rgba(240,165,0,0.15); color: #FFD54F; border: 1px solid rgba(240,165,0,0.25); }
+  .badge-done    { background: rgba(100,100,100,0.2); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.1); }
+  .float-card {
+    position: absolute;
+    background: white;
+    border-radius: 16px;
+    padding: 14px 18px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+    animation: float 4s ease-in-out infinite;
+  }
+  .float-card-1 { bottom: -24px; left: -28px; }
+  .float-card-2 { top: -22px; right: -24px; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .fc-label { font-size: 10px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 1px; }
+  .fc-value { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--blue-800); margin-top: 2px; }
+  .fc-sub   { font-size: 11px; color: var(--blue-500); margin-top: 1px; }
+
+  /* Sections restyling (how, services, pricing, testi, cta, footer) same as original */
+  .how, .services, .pricing, .testi, .cta-section, footer { width: 100%; }
+  .how { padding: 100px 5vw; background: var(--gray-100); }
+  .services { padding: 100px 5vw; background: white; }
+  .pricing { padding: 100px 5vw; background: linear-gradient(135deg, var(--blue-900), #1a3a6b); position: relative; overflow: hidden; }
+  .testi { padding: 100px 5vw; background: var(--gray-100); }
+  .cta-section { padding: 100px 5vw; background: white; text-align: center; }
+  footer { background: var(--blue-900); padding: 60px 5vw 28px; color: rgba(255,255,255,0.65); }
+
+  .section-tag { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2.5px; background: var(--blue-100); border-radius: 50px; padding: 5px 14px; margin-bottom: 16px; color: var(--blue-600); }
+  .pricing .section-tag { background: rgba(255,255,255,0.1); color: var(--sky-lite); }
+  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(28px, 4vw, 44px); font-weight: 800; color: var(--blue-900); letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; }
+  .pricing .section-title { color: white; }
+  .section-desc { font-size: 16px; color: var(--gray-500); max-width: 500px; line-height: 1.7; margin-bottom: 60px; }
+  .pricing .section-desc { color: rgba(255,255,255,0.6); }
+  .how-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; position: relative; }
+  .how-step { background: white; border-radius: var(--radius); padding: 28px 24px; border: 1px solid var(--gray-200); transition: all .3s; }
+  .step-num { width: 52px; height: 52px; background: var(--blue-700); color: white; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 20px; box-shadow: 0 6px 16px rgba(21,101,192,0.3); }
+  .how-step h3 { font-size: 15px; font-weight: 700; color: var(--blue-900); margin-bottom: 8px; }
+  .how-step p { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
+
+  .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: 24px; overflow: hidden; border: 1px solid var(--gray-200); margin-top: 60px; }
+  .service-item { padding: 44px 40px; border-right: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200); transition: all .3s; }
+  .service-item:nth-child(2n) { border-right: none; }
+  .service-item:nth-child(3), .service-item:nth-child(4) { border-bottom: none; }
+  .svc-icon { font-size: 36px; margin-bottom: 18px; display: inline-block; }
+  .service-item h3 { font-size: 18px; font-weight: 700; color: var(--blue-900); margin-bottom: 10px; }
+  .service-item p { font-size: 13.5px; color: var(--gray-500); line-height: 1.7; }
+  .svc-tag { display: inline-block; margin-top: 16px; font-size: 11px; font-weight: 700; color: var(--blue-600); background: var(--blue-100); border-radius: 50px; padding: 4px 12px; }
+
+  .pricing-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; position: relative; z-index: 1; }
+  .pricing-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 24px; padding: 36px 30px; backdrop-filter: blur(12px); transition: all .3s; }
+  .pricing-card.featured { background: var(--sky); border-color: var(--sky); }
+  .pricing-card.featured .pc-name, .pricing-card.featured .pc-price { color: var(--blue-900); }
+  .pc-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
+  .pc-name { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: white; margin-bottom: 20px; }
+  .pc-price { font-family: 'Syne', sans-serif; font-size: 42px; font-weight: 800; color: white; line-height: 1; }
+  .pc-price sup { font-size: 18px; font-weight: 700; vertical-align: top; margin-top: 8px; display: inline-block; }
+  .pc-price-note { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; margin-bottom: 28px; }
+  .pc-divider { height: 1px; background: rgba(255,255,255,0.12); margin-bottom: 24px; }
+  .pc-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+  .pc-features li { font-size: 13px; color: rgba(255,255,255,0.8); display: flex; align-items: flex-start; gap: 10px; }
+  .pc-features li::before { content: '✓'; font-weight: 800; color: var(--sky); flex-shrink: 0; }
+  .pricing-card.featured .pc-features li { color: var(--blue-900); }
+  .pricing-card.featured .pc-features li::before { color: var(--blue-900); }
+  .pc-btn { display: block; text-align: center; text-decoration: none; border-radius: 50px; padding: 13px; font-size: 13px; font-weight: 700; transition: all .25s; }
+  .pc-btn-outline { border: 1.5px solid rgba(255,255,255,0.3); color: white; }
+  .pc-btn-solid { background: var(--blue-800); color: white; box-shadow: 0 4px 16px rgba(13,71,161,0.4); }
+  .featured-badge { position: absolute; top: 20px; right: 20px; background: var(--blue-800); color: white; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; padding: 4px 12px; border-radius: 50px; }
+  .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 60px; }
+  .testi-card { background: white; border-radius: var(--radius); padding: 32px; border: 1px solid var(--gray-200); }
+  .testi-stars { color: var(--gold); font-size: 14px; letter-spacing: 2px; margin-bottom: 16px; }
+  .testi-text { font-size: 14px; color: var(--gray-700); line-height: 1.7; margin-bottom: 24px; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; color: white; }
+  .av-blue { background: linear-gradient(135deg, var(--blue-600), var(--blue-800)); }
+  .av-sky  { background: linear-gradient(135deg, var(--sky), var(--blue-600)); }
+  .av-dark { background: linear-gradient(135deg, var(--blue-900), var(--blue-700)); }
+  .cta-inner { background: linear-gradient(135deg, var(--blue-800), var(--blue-900)); border-radius: 32px; padding: 80px 60px; position: relative; overflow: hidden; }
+  .cta-inner .section-title { color: white; margin-bottom: 16px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 28px; }
+  .footer-brand h2 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: white; margin-bottom: 10px; }
+  .footer-contact-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; margin-bottom: 10px; color: rgba(255,255,255,0.6); }
+  .footer-col h4 { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.9); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col a { text-decoration: none; font-size: 13px; color: rgba(255,255,255,0.5); transition: color .2s; }
+  .footer-col a:hover { color: var(--sky); }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; font-size: 12px; flex-wrap: wrap; gap: 12px; }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding: 100px 5vw 60px; }
+    .hero-visual { display: none; }
+    .how-grid { grid-template-columns: 1fr 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .service-item:nth-child(n) { border-right: none; border-bottom: 1px solid var(--gray-200); }
+    .pricing-cards { grid-template-columns: 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .cta-inner { padding: 48px 28px; }
+  }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <a class="nav-logo" href="#">
+      <div class="nav-logo-icon">AB</div>
+      <div>
+        <span class="nav-logo-text">ArusBangun</span>
+        <span class="nav-logo-sub">Solusi Bangun & Renovasi</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how" data-key="nav_how">Cara Kerja</a></li>
+      <li><a href="#layanan" data-key="nav_service">Layanan</a></li>
+      <li><a href="#harga" data-key="nav_price">Harga</a></li>
+      <li><a href="#testimoni" data-key="nav_testi">Testimoni</a></li>
+    </ul>
+  </div>
+  <div style="display: flex; align-items: center; gap: 16px;">
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="id">🇮🇩 ID</button>
+      <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
+      <button class="lang-btn" data-lang="zh">🇨🇳 中文</button>
+    </div>
+    <a href="#cta" class="nav-cta" data-key="nav_cta">Hubungi Kami</a>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-content">
+    <div class="hero-badge" data-key="hero_badge">Terpercaya & Profesional</div>
+    <h1 class="hero-title" data-key="hero_title">Tukang Harian<br/>Siap Pakai,<br/><span>Tanpa Ribet</span></h1>
+    <p class="hero-desc" data-key="hero_desc">ArusBangun menyediakan tenaga tukang harian berpengalaman untuk proyek konstruksi dan renovasi Anda. Bayar per hari, sesuai kehadiran — tidak ada biaya tersembunyi.</p>
+    <div class="hero-btns">
+      <a href="#layanan" class="btn-primary" data-key="hero_btn1">Pesan Tukang Sekarang</a>
+      <a href="#how" class="btn-outline" data-key="hero_btn2">Lihat Cara Kerja</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">150<span>+</span></div><div class="stat-lbl" data-key="stat1">Tukang Aktif</div></div>
+      <div><div class="stat-num">80<span>+</span></div><div class="stat-lbl" data-key="stat2">Proyek Selesai</div></div>
+      <div><div class="stat-num">98<span>%</span></div><div class="stat-lbl" data-key="stat3">Kepuasan Owner</div></div>
+    </div>
+  </div>
+  <div class="hero-visual"><div class="hero-card-main"><div class="hero-card-label" data-key="project_label">Proyek Aktif Hari Ini</div><div class="project-list"><div class="project-item"><div class="project-icon pi-blue">🏗️</div><div class="project-info"><div class="project-name">Renovasi Rumah Pak Budi — Bekasi</div><div class="project-meta">5 Tukang · Hari ke-8</div></div><span class="project-badge badge-active" data-key="status_active">Aktif</span></div><div class="project-item"><div class="project-icon pi-sky">🏢</div><div class="project-info"><div class="project-name">Finishing Kantor Bu Sari — Depok</div><div class="project-meta">3 Tukang · Hari ke-3</div></div><span class="project-badge badge-active" data-key="status_active">Aktif</span></div><div class="project-item"><div class="project-icon pi-gold">🔨</div><div class="project-info"><div class="project-name">Pembangunan Gudang — Tangerang</div><div class="project-meta">7 Tukang · Mulai besok</div></div><span class="project-badge badge-waiting" data-key="status_waiting">Menunggu</span></div><div class="project-item"><div class="project-icon pi-blue">🪟</div><div class="project-info"><div class="project-name">Pasang Keramik Bu Dewi — Bogor</div><div class="project-meta">2 Tukang · Selesai kemarin</div></div><span class="project-badge badge-done" data-key="status_done">Selesai</span></div></div><div class="float-card float-card-1"><div class="fc-label" data-key="floating1_label">Pendapatan Hari Ini</div><div class="fc-value">Rp 1,8 Jt</div><div class="fc-sub" data-key="floating1_sub">dari 15 tukang aktif ↑</div></div><div class="float-card float-card-2"><div class="fc-label" data-key="floating2_label">Tukang Tersedia</div><div class="fc-value">32 Orang</div><div class="fc-sub" data-key="floating2_sub">Siap kirim hari ini</div></div></div></div>
+</section>
+
+<!-- HOW, SERVICES, PRICING, TESTI, CTA, FOOTER with data-key attributes -->
+<section class="how" id="how"><div class="reveal"><span class="section-tag" data-key="how_tag">Cara Kerja</span><h2 class="section-title" data-key="how_title">Mudah dalam<br/>4 Langkah</h2><p class="section-desc" data-key="how_desc">Dari permintaan hingga tukang di lapangan — prosesnya cepat, transparan, dan terstruktur.</p></div><div class="how-grid reveal"><div class="how-step"><div class="step-num">1</div><h3 data-key="step1_title">Hubungi ArusBangun</h3><p data-key="step1_desc">Sampaikan kebutuhan: jumlah tukang, jenis skill, lokasi, dan estimasi durasi proyek via WhatsApp.</p></div><div class="how-step"><div class="step-num">2</div><h3 data-key="step2_title">Sepakati Kontrak</h3><p data-key="step2_desc">Kami kirimkan penawaran resmi. Setelah setuju, tanda tangan perjanjian dan bayar deposit awal.</p></div><div class="how-step"><div class="step-num">3</div><h3 data-key="step3_title">Tukang Siap Kerja</h3><p data-key="step3_desc">Tim tukang kami tiba di lokasi tepat waktu. Anda terima laporan kehadiran setiap pagi.</p></div><div class="how-step"><div class="step-num">4</div><h3 data-key="step4_title">Bayar Sesuai Hadir</h3><p data-key="step4_desc">Transfer berdasarkan rekap kehadiran nyata. Tidak hadir, tidak dibayar — transparan dan adil.</p></div></div></section>
+
+<section class="services" id="layanan"><div class="reveal"><span class="section-tag" data-key="service_tag">Layanan Kami</span><h2 class="section-title" data-key="service_title">Semua Kebutuhan<br/>Konstruksi Anda</h2><p class="section-desc" data-key="service_desc">Tukang terseleksi dengan berbagai keahlian untuk setiap tahap pembangunan.</p></div><div class="services-grid reveal"><div class="service-item"><div class="svc-icon">🧱</div><h3 data-key="srv1_title">Tukang Batu & Bata</h3><p data-key="srv1_desc">Pemasangan bata, plester, acian dinding, hingga konstruksi pondasi. Berpengalaman untuk berbagai jenis bangunan.</p><span class="svc-tag" data-key="srv1_tag">Paling Diminati</span></div><div class="service-item"><div class="svc-icon">🪵</div><h3 data-key="srv2_title">Tukang Kayu & Kusen</h3><p data-key="srv2_desc">Pemasangan kusen, pintu, jendela, plafon, dan furnitur built-in. Hasil rapi dan presisi.</p><span class="svc-tag" data-key="srv2_tag">Tersedia</span></div><div class="service-item"><div class="svc-icon">🪟</div><h3 data-key="srv3_title">Tukang Keramik & Finishing</h3><p data-key="srv3_desc">Pemasangan keramik lantai & dinding, cat, coating, dan finishing lainnya.</p><span class="svc-tag" data-key="srv3_tag">Tersedia</span></div><div class="service-item"><div class="svc-icon">⚡</div><h3 data-key="srv4_title">Tukang Listrik & Plumbing</h3><p data-key="srv4_desc">Instalasi listrik, titik lampu, dan pipa air. Tim bersertifikat dan mengikuti standar keamanan.</p><span class="svc-tag" data-key="srv4_tag">Tersedia</span></div></div></section>
+
+<section class="pricing" id="harga"><div class="reveal"><span class="section-tag" data-key="price_tag">Struktur Harga</span><h2 class="section-title" data-key="price_title">Transparan &<br/>Tanpa Biaya Tersembunyi</h2><p class="section-desc" data-key="price_desc">Harga flat per kepala per hari. Bayar hanya untuk tukang yang hadir.</p></div><div class="pricing-cards reveal"><div class="pricing-card"><div class="pc-label" data-key="pack_mini_label">Paket Mini</div><div class="pc-name" data-key="pack_mini_name">1–3 Tukang</div><div class="pc-price"><sup>Rp</sup>150K</div><div class="pc-price-note" data-key="pack_mini_note">per orang / hari hadir</div><div class="pc-divider"></div><ul class="pc-features"><li data-key="feat1">Absensi harian via WA</li><li data-key="feat2">Laporan kehadiran harian</li><li data-key="feat3">Ganti tukang jika tidak cocok</li><li data-key="feat4">Minimal 3 hari deposit awal</li></ul><a href="#cta" class="pc-btn pc-btn-outline" data-key="pack_btn">Hubungi Kami</a></div><div class="pricing-card featured"><div class="featured-badge" data-key="popular_badge">Populer</div><div class="pc-label" data-key="pack_std_label">Paket Standar</div><div class="pc-name" data-key="pack_std_name">4–10 Tukang</div><div class="pc-price"><sup>Rp</sup>150K</div><div class="pc-price-note" data-key="pack_std_note">per orang / hari hadir</div><div class="pc-divider"></div><ul class="pc-features"><li data-key="std_feat1">Semua fitur Paket Mini</li><li data-key="std_feat2">Mandor koordinasi lapangan</li><li data-key="std_feat3">Rekap mingguan lengkap</li><li data-key="std_feat4">Prioritas penggantian tukang</li><li data-key="std_feat5">Laporan foto progress</li></ul><a href="#cta" class="pc-btn pc-btn-solid" data-key="pack_std_btn">Pesan Sekarang</a></div><div class="pricing-card"><div class="pc-label" data-key="pack_pro_label">Paket Proyek</div><div class="pc-name" data-key="pack_pro_name">10+ Tukang</div><div class="pc-price">Custom</div><div class="pc-price-note" data-key="pack_pro_note">harga negotiable / volume</div><div class="pc-divider"></div><ul class="pc-features"><li data-key="pro_feat1">Semua fitur Paket Standar</li><li data-key="pro_feat2">Harga spesial volume besar</li><li data-key="pro_feat3">Kontrak jangka panjang</li><li data-key="pro_feat4">Dedicated account manager</li><li data-key="pro_feat5">Invoice & laporan formal</li></ul><a href="#cta" class="pc-btn pc-btn-outline" data-key="pack_pro_btn">Diskusi Harga</a></div></div></section>
+
+<section class="testi" id="testimoni"><div class="reveal"><span class="section-tag" data-key="testi_tag">Testimoni</span><h2 class="section-title" data-key="testi_title">Owner Puas,<br/>Tukang Senang</h2><p class="section-desc" data-key="testi_desc">Kepercayaan owner adalah prioritas utama ArusBangun.</p></div><div class="testi-grid reveal"><div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text" data-key="testi1_text">"Prosesnya sangat mudah. Cukup WA, besoknya tukang sudah di lokasi. Laporan hariannya juga bikin saya tenang karena bisa pantau dari kantor."</p><div class="testi-author"><div class="testi-avatar av-blue">BR</div><div><div class="testi-name" data-key="testi1_name">Budi Raharjo</div><div class="testi-role" data-key="testi1_role">Owner Proyek Renovasi — Bekasi</div></div></div></div><div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text" data-key="testi2_text">"Sistemnya transparan banget. Bayar sesuai hadir, bukan borongan yang sering bikin konflik. Rekap absensinya akurat dan bisa saya cek sendiri."</p><div class="testi-author"><div class="testi-avatar av-sky">SW</div><div><div class="testi-name" data-key="testi2_name">Sari Widyawati</div><div class="testi-role" data-key="testi2_role">Pemilik Ruko — Depok</div></div></div></div><div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text" data-key="testi3_text">"Sudah 3 proyek pakai ArusBangun. Tidak pernah kecewa. Kalau ada tukang yang berhalangan, langsung diganti tanpa perlu saya cari sendiri."</p><div class="testi-author"><div class="testi-avatar av-dark">HM</div><div><div class="testi-name" data-key="testi3_name">Hendra Mulyadi</div><div class="testi-role" data-key="testi3_role">Developer Perumahan — Tangerang</div></div></div></div></div></section>
+
+<section class="cta-section" id="cta"><div class="cta-inner reveal"><h2 class="section-title" data-key="cta_title">Siap Mulai Proyek?<br/>Hubungi Kami Sekarang</h2><p data-key="cta_desc">Tim ArusBangun siap menyediakan tukang profesional untuk proyek Anda dalam 24 jam.</p><div class="cta-btns"><a href="#" class="btn-primary" data-key="cta_wa">💬 Chat via WhatsApp</a><a href="#" class="btn-outline" data-key="cta_telp">📞 Telepon Langsung</a></div></div></section>
+
+<footer><div class="footer-grid"><div class="footer-brand"><h2>ArusBangun</h2><p data-key="footer_desc">Solusi outsourcing tenaga tukang harian yang profesional, transparan, dan terpercaya untuk proyek konstruksi dan renovasi Anda.</p><div class="footer-contact-item"><span class="fc-icon">📱</span><span>+62 xxx-xxxx-xxxx (WhatsApp)</span></div><div class="footer-contact-item"><span class="fc-icon">📧</span><span>info@arusbangun.id</span></div><div class="footer-contact-item"><span class="fc-icon">📍</span><span data-key="footer_area">Jakarta & sekitarnya</span></div></div><div class="footer-col"><h4 data-key="footer_service">Layanan</h4><ul><li><a href="#" data-key="foot_srv1">Tukang Batu & Bata</a></li><li><a href="#" data-key="foot_srv2">Tukang Kayu</a></li><li><a href="#" data-key="foot_srv3">Tukang Keramik</a></li><li><a href="#" data-key="foot_srv4">Tukang Listrik</a></li><li><a href="#" data-key="foot_srv5">Plumbing</a></li></ul></div><div class="footer-col"><h4 data-key="footer_company">Perusahaan</h4><ul><li><a href="#" data-key="foot_about">Tentang Kami</a></li><li><a href="#how" data-key="foot_how">Cara Kerja</a></li><li><a href="#" data-key="foot_join">Daftar Jadi Tukang</a></li><li><a href="#" data-key="foot_career">Karir</a></li><li><a href="#" data-key="foot_contact">Kontak</a></li></ul></div><div class="footer-col"><h4 data-key="footer_area_title">Area Layanan</h4><ul><li><a href="#">Jakarta</a></li><li><a href="#">Bekasi</a></li><li><a href="#">Depok</a></li><li><a href="#">Tangerang</a></li><li><a href="#">Bogor</a></li></ul></div></div><div class="footer-bottom"><span>© 2025 ArusBangun. Solusi Bangun dan Renovasi.</span><div style="display:flex;gap:20px;"><a href="#" data-key="terms">Syarat & Ketentuan</a><a href="#" data-key="privacy">Kebijakan Privasi</a></div></div></footer>
+
+<script>
+  const translations = {
+    id: { /* Indonesian (fallback default) all keys match the original text, keep same as HTML */
+      nav_how: "Cara Kerja", nav_service: "Layanan", nav_price: "Harga", nav_testi: "Testimoni", nav_cta: "Hubungi Kami",
+      hero_badge: "Terpercaya & Profesional", hero_title: "Tukang Harian<br/>Siap Pakai,<br/><span>Tanpa Ribet</span>",
+      hero_desc: "ArusBangun menyediakan tenaga tukang harian berpengalaman untuk proyek konstruksi dan renovasi Anda. Bayar per hari, sesuai kehadiran — tidak ada biaya tersembunyi.",
+      hero_btn1: "Pesan Tukang Sekarang", hero_btn2: "Lihat Cara Kerja", stat1: "Tukang Aktif", stat2: "Proyek Selesai", stat3: "Kepuasan Owner",
+      project_label: "Proyek Aktif Hari Ini", status_active: "Aktif", status_waiting: "Menunggu", status_done: "Selesai",
+      floating1_label: "Pendapatan Hari Ini", floating1_sub: "dari 15 tukang aktif ↑", floating2_label: "Tukang Tersedia", floating2_sub: "Siap kirim hari ini",
+      how_tag: "Cara Kerja", how_title: "Mudah dalam<br/>4 Langkah", how_desc: "Dari permintaan hingga tukang di lapangan — prosesnya cepat, transparan, dan terstruktur.",
+      step1_title: "Hubungi ArusBangun", step1_desc: "Sampaikan kebutuhan: jumlah tukang, jenis skill, lokasi, dan estimasi durasi proyek via WhatsApp.",
+      step2_title: "Sepakati Kontrak", step2_desc: "Kami kirimkan penawaran resmi. Setelah setuju, tanda tangan perjanjian dan bayar deposit awal.",
+      step3_title: "Tukang Siap Kerja", step3_desc: "Tim tukang kami tiba di lokasi tepat waktu. Anda terima laporan kehadiran setiap pagi.",
+      step4_title: "Bayar Sesuai Hadir", step4_desc: "Transfer berdasarkan rekap kehadiran nyata. Tidak hadir, tidak dibayar — transparan dan adil.",
+      service_tag: "Layanan Kami", service_title: "Semua Kebutuhan<br/>Konstruksi Anda", service_desc: "Tukang terseleksi dengan berbagai keahlian untuk setiap tahap pembangunan.",
+      srv1_title: "Tukang Batu & Bata", srv1_desc: "Pemasangan bata, plester, acian dinding, hingga konstruksi pondasi. Berpengalaman untuk berbagai jenis bangunan.", srv1_tag: "Paling Diminati",
+      srv2_title: "Tukang Kayu & Kusen", srv2_desc: "Pemasangan kusen, pintu, jendela, plafon, dan furnitur built-in. Hasil rapi dan presisi.", srv2_tag: "Tersedia",
+      srv3_title: "Tukang Keramik & Finishing", srv3_desc: "Pemasangan keramik lantai & dinding, cat, coating, dan finishing lainnya.", srv3_tag: "Tersedia",
+      srv4_title: "Tukang Listrik & Plumbing", srv4_desc: "Instalasi listrik, titik lampu, dan pipa air. Tim bersertifikat dan mengikuti standar keamanan.", srv4_tag: "Tersedia",
+      price_tag: "Struktur Harga", price_title: "Transparan &<br/>Tanpa Biaya Tersembunyi", price_desc: "Harga flat per kepala per hari. Bayar hanya untuk tukang yang hadir.",
+      pack_mini_label: "Paket Mini", pack_mini_name: "1–3 Tukang", pack_mini_note: "per orang / hari hadir", feat1: "Absensi harian via WA", feat2: "Laporan kehadiran harian", feat3: "Ganti tukang jika tidak cocok", feat4: "Minimal 3 hari deposit awal", pack_btn: "Hubungi Kami",
+      popular_badge: "Populer", pack_std_label: "Paket Standar", pack_std_name: "4–10 Tukang", pack_std_note: "per orang / hari hadir", std_feat1: "Semua fitur Paket Mini", std_feat2: "Mandor koordinasi lapangan", std_feat3: "Rekap mingguan lengkap", std_feat4: "Prioritas penggantian tukang", std_feat5: "Laporan foto progress", pack_std_btn: "Pesan Sekarang",
+      pack_pro_label: "Paket Proyek", pack_pro_name: "10+ Tukang", pack_pro_note: "harga negotiable / volume", pro_feat1: "Semua fitur Paket Standar", pro_feat2: "Harga spesial volume besar", pro_feat3: "Kontrak jangka panjang", pro_feat4: "Dedicated account manager", pro_feat5: "Invoice & laporan formal", pack_pro_btn: "Diskusi Harga",
+      testi_tag: "Testimoni", testi_title: "Owner Puas,<br/>Tukang Senang", testi_desc: "Kepercayaan owner adalah prioritas utama ArusBangun.",
+      testi1_text: '"Prosesnya sangat mudah. Cukup WA, besoknya tukang sudah di lokasi. Laporan hariannya juga bikin saya tenang karena bisa pantau dari kantor."', testi1_name: "Budi Raharjo", testi1_role: "Owner Proyek Renovasi — Bekasi",
+      testi2_text: '"Sistemnya transparan banget. Bayar sesuai hadir, bukan borongan yang sering bikin konflik. Rekap absensinya akurat dan bisa saya cek sendiri."', testi2_name: "Sari Widyawati", testi2_role: "Pemilik Ruko — Depok",
+      testi3_text: '"Sudah 3 proyek pakai ArusBangun. Tidak pernah kecewa. Kalau ada tukang yang berhalangan, langsung diganti tanpa perlu saya cari sendiri."', testi3_name: "Hendra Mulyadi", testi3_role: "Developer Perumahan — Tangerang",
+      cta_title: "Siap Mulai Proyek?<br/>Hubungi Kami Sekarang", cta_desc: "Tim ArusBangun siap menyediakan tukang profesional untuk proyek Anda dalam 24 jam.", cta_wa: "💬 Chat via WhatsApp", cta_telp: "📞 Telepon Langsung",
+      footer_desc: "Solusi outsourcing tenaga tukang harian yang profesional, transparan, dan terpercaya untuk proyek konstruksi dan renovasi Anda.", footer_area: "Jakarta & sekitarnya",
+      footer_service: "Layanan", footer_company: "Perusahaan", footer_area_title: "Area Layanan", terms: "Syarat & Ketentuan", privacy: "Kebijakan Privasi",
+      foot_srv1: "Tukang Batu & Bata", foot_srv2: "Tukang Kayu", foot_srv3: "Tukang Keramik", foot_srv4: "Tukang Listrik", foot_srv5: "Plumbing",
+      foot_about: "Tentang Kami", foot_how: "Cara Kerja", foot_join: "Daftar Jadi Tukang", foot_career: "Karir", foot_contact: "Kontak"
+    },
+    en: {
+      nav_how: "How It Works", nav_service: "Services", nav_price: "Pricing", nav_testi: "Testimonials", nav_cta: "Contact Us",
+      hero_badge: "Trusted & Professional", hero_title: "Daily Workers<br/>Ready to Use,<br/><span>No Hassle</span>",
+      hero_desc: "ArusBangun provides experienced daily workers for your construction and renovation projects. Pay per day based on attendance — no hidden fees.",
+      hero_btn1: "Order Workers Now", hero_btn2: "See How It Works", stat1: "Active Workers", stat2: "Projects Done", stat3: "Owner Satisfaction",
+      project_label: "Active Projects Today", status_active: "Active", status_waiting: "Pending", status_done: "Completed",
+      floating1_label: "Today's Revenue", floating1_sub: "from 15 active workers ↑", floating2_label: "Available Workers", floating2_sub: "Ready to dispatch today",
+      how_tag: "How It Works", how_title: "Easy in<br/>4 Steps", how_desc: "From request to workers on site — fast, transparent, structured.",
+      step1_title: "Contact ArusBangun", step1_desc: "Tell us your needs: number of workers, skills, location, estimated project duration via WhatsApp.",
+      step2_title: "Agree Contract", step2_desc: "We send official proposal. After agreement, sign contract and pay initial deposit.",
+      step3_title: "Workers Ready", step3_desc: "Our team arrives on time. You receive daily attendance reports each morning.",
+      step4_title: "Pay per Attendance", step4_desc: "Transfer based on real attendance record. Not present, not paid — transparent and fair.",
+      service_tag: "Our Services", service_title: "All Your<br/>Construction Needs", service_desc: "Selected workers with various skills for every construction phase.",
+      srv1_title: "Masonry Workers", srv1_desc: "Brick installation, plastering, wall smoothing, even foundation construction. Experienced for various building types.", srv1_tag: "Most Popular",
+      srv2_title: "Carpentry & Frames", srv2_desc: "Installation of frames, doors, windows, ceilings, and built-in furniture. Neat and precise results.", srv2_tag: "Available",
+      srv3_title: "Tile & Finishing", srv3_desc: "Floor and wall tile installation, painting, coating, and other finishing work.", srv3_tag: "Available",
+      srv4_title: "Electric & Plumbing", srv4_desc: "Electrical installation, lighting points, and water pipes. Certified team following safety standards.", srv4_tag: "Available",
+      price_tag: "Pricing Structure", price_title: "Transparent &<br/>No Hidden Fees", price_desc: "Flat rate per person per day. Pay only for workers who show up.",
+      pack_mini_label: "Mini Package", pack_mini_name: "1–3 Workers", pack_mini_note: "per person / day attended", feat1: "Daily attendance via WA", feat2: "Daily attendance report", feat3: "Replace worker if not suitable", feat4: "Minimum 3 days initial deposit", pack_btn: "Contact Us",
+      popular_badge: "Popular", pack_std_label: "Standard Package", pack_std_name: "4–10 Workers", pack_std_note: "per person / day attended", std_feat1: "All Mini Package features", std_feat2: "Site coordinator (mandor)", std_feat3: "Complete weekly recap", std_feat4: "Priority worker replacement", std_feat5: "Photo progress report", pack_std_btn: "Order Now",
+      pack_pro_label: "Project Package", pack_pro_name: "10+ Workers", pack_pro_note: "negotiable / volume", pro_feat1: "All Standard Package features", pro_feat2: "Special volume pricing", pro_feat3: "Long-term contract", pro_feat4: "Dedicated account manager", pro_feat5: "Invoice & formal reports", pack_pro_btn: "Discuss Pricing",
+      testi_tag: "Testimonials", testi_title: "Satisfied Owners,<br/>Happy Workers", testi_desc: "Owner trust is ArusBangun's top priority.",
+      testi1_text: '"The process is very easy. Just WA, the next day workers are on site. The daily reports also give me peace of mind as I can monitor from the office."', testi1_name: "Budi Raharjo", testi1_role: "Renovation Project Owner — Bekasi",
+      testi2_text: '"The system is very transparent. Pay based on attendance, not lump sum which often causes conflict. The attendance recap is accurate and I can check it myself."', testi2_name: "Sari Widyawati", testi2_role: "Shop Owner — Depok",
+      testi3_text: '"Already 3 projects with ArusBangun. Never disappointed. If any worker can’t come, they are replaced without me having to find a replacement myself."', testi3_name: "Hendra Mulyadi", testi3_role: "Housing Developer — Tangerang",
+      cta_title: "Ready to Start Your Project?<br/>Contact Us Now", cta_desc: "ArusBangun team is ready to provide professional workers for your project within 24 hours.", cta_wa: "💬 Chat via WhatsApp", cta_telp: "📞 Call Directly",
+      footer_desc: "Professional, transparent, and trusted daily worker outsourcing solution for your construction and renovation projects.", footer_area: "Jakarta & surrounding areas",
+      footer_service: "Services", footer_company: "Company", footer_area_title: "Service Areas", terms: "Terms & Conditions", privacy: "Privacy Policy",
+      foot_srv1: "Masonry", foot_srv2: "Carpentry", foot_srv3: "Tile & Finishing", foot_srv4: "Electrical", foot_srv5: "Plumbing",
+      foot_about: "About Us", foot_how: "How It Works", foot_join: "Become a Worker", foot_career: "Career", foot_contact: "Contact"
+    },
+    zh: {
+      nav_how: "运作方式", nav_service: "服务", nav_price: "价格", nav_testi: "客户评价", nav_cta: "联系我们",
+      hero_badge: "值得信赖 & 专业", hero_title: "每日工匠<br/>随时可用,<br/><span>无繁琐</span>",
+      hero_desc: "ArusBangun 为您的建筑和翻新项目提供经验丰富的日结工匠。按日付费，根据出勤情况 — 无隐藏费用。",
+      hero_btn1: "立即预订工匠", hero_btn2: "查看运作方式", stat1: "活跃工匠", stat2: "完成项目", stat3: "业主满意度",
+      project_label: "今日活跃项目", status_active: "活跃中", status_waiting: "等待中", status_done: "已完成",
+      floating1_label: "今日收入", floating1_sub: "来自15名活跃工匠 ↑", floating2_label: "可用工匠", floating2_sub: "今日即可派遣",
+      how_tag: "运作方式", how_title: "简单<br/>4步骤", how_desc: "从需求到工匠到场 — 快速、透明、有条理。",
+      step1_title: "联系 ArusBangun", step1_desc: "告诉我们您的需求：工匠数量、技能类型、地点、预计工期，通过 WhatsApp。",
+      step2_title: "签订合同", step2_desc: "我们发送正式报价。达成一致后，签署协议并支付初期押金。",
+      step3_title: "工匠就位", step3_desc: "我们的团队准时到达现场。您每天早上收到出勤报告。",
+      step4_title: "按出勤支付", step4_desc: "根据实际出勤记录转账。未出勤不付费 — 透明公正。",
+      service_tag: "我们的服务", service_title: "满足您的<br/>所有建筑需求", service_desc: "精选工匠，掌握各类技能，适用于每个施工阶段。",
+      srv1_title: "瓦工与砌砖", srv1_desc: "砌砖、抹灰、墙面找平，直至地基施工。经验丰富，适用于各类建筑。", srv1_tag: "最受欢迎",
+      srv2_title: "木工与门窗框", srv2_desc: "安装门框、门窗、吊顶及嵌入式家具。成果整洁精确。", srv2_tag: "可用",
+      srv3_title: "瓷砖与精装修", srv3_desc: "地面与墙面瓷砖铺设、油漆、涂层及其他精装修工作。", srv3_tag: "可用",
+      srv4_title: "电工与水管工", srv4_desc: "电路安装、照明点和水管。持证团队，遵循安全标准。", srv4_tag: "可用",
+      price_tag: "价格结构", price_title: "透明且<br/>无隐藏费用", price_desc: "每人每日固定费率。仅支付实际出勤的工匠。",
+      pack_mini_label: "迷你套餐", pack_mini_name: "1–3 名工匠", pack_mini_note: "每人 / 出勤日", feat1: "通过 WhatsApp 每日签到", feat2: "每日出勤报告", feat3: "不合适可更换工匠", feat4: "最少3天初期押金", pack_btn: "联系我们",
+      popular_badge: "热门", pack_std_label: "标准套餐", pack_std_name: "4–10 名工匠", pack_std_note: "每人 / 出勤日", std_feat1: "包含迷你套餐所有功能", std_feat2: "现场工头协调", std_feat3: "完整每周汇总", std_feat4: "优先更换工匠", std_feat5: "照片进度报告", pack_std_btn: "立即预订",
+      pack_pro_label: "项目套餐", pack_pro_name: "10+ 名工匠", pack_pro_note: "可议价 / 批量", pro_feat1: "包含标准套餐所有功能", pro_feat2: "大批量特价", pro_feat3: "长期合同", pro_feat4: "专属客户经理", pro_feat5: "发票与正式报告", pack_pro_btn: "洽谈价格",
+      testi_tag: "客户评价", testi_title: "业主满意，<br/>工匠开心", testi_desc: "业主信任是 ArusBangun 的首要任务。",
+      testi1_text: '"整个过程非常简单。只需发 WhatsApp，第二天工匠就到场了。每日报告让我安心，即使不在现场也能监控。"', testi1_name: "Budi Raharjo", testi1_role: "翻新项目业主 — Bekasi",
+      testi2_text: '"系统非常透明。按出勤支付，而不是常引起纠纷的承包模式。出勤记录准确，我可以自己核对。"', testi2_name: "Sari Widyawati", testi2_role: "商铺业主 — Depok",
+      testi3_text: '"已经用了 ArusBangun 三个项目。从未失望。如果有工匠不能来，他们会直接替换，无需我自己找人。"', testi3_name: "Hendra Mulyadi", testi3_role: "房屋开发商 — Tangerang",
+      cta_title: "准备开始您的项目？<br/>立即联系我们", cta_desc: "ArusBangun 团队随时准备在24小时内为您的项目提供专业工匠。", cta_wa: "💬 WhatsApp 聊天", cta_telp: "📞 直接电话",
+      footer_desc: "为您的建筑和翻新项目提供专业、透明、值得信赖的日结工匠外包解决方案。", footer_area: "雅加达及周边地区",
+      footer_service: "服务", footer_company: "公司", footer_area_title: "服务区域", terms: "条款与条件", privacy: "隐私政策",
+      foot_srv1: "瓦工与砌砖", foot_srv2: "木工", foot_srv3: "瓷砖与精装修", foot_srv4: "电工", foot_srv5: "水管工",
+      foot_about: "关于我们", foot_how: "运作方式", foot_join: "成为工匠", foot_career: "职业发展", foot_contact: "联系方式"
+    }
+  };
+  function setLanguage(lang) {
+    const t = translations[lang];
+    if(!t) return;
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const key = el.getAttribute('data-key');
+      if(t[key] !== undefined) {
+        if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.value = t[key];
+        else el.innerHTML = t[key];
+      }
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      if(btn.getAttribute('data-lang') === lang) btn.classList.add('active');
+      else btn.classList.remove('active');
+    });
+  }
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+  });
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  window.addEventListener('scroll', () => { const nav = document.querySelector('nav'); if(window.scrollY > 20) nav.style.boxShadow = '0 4px 30px rgba(13,71,161,0.12)'; else nav.style.boxShadow = '0 2px 20px rgba(13,71,161,0.06)'; });
+  setLanguage('id');
+</script>
+</body>
+</html>
