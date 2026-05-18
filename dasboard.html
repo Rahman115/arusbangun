@@ -8,12 +8,39 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/styles_res.css" />
+    <!-- <link rel="stylesheet" href="css/styles.css" /> -->
 </head>
 
 <body>
-
     <nav>
+        <div class="nav-left">
+            <a class="nav-logo" href="#">
+                <div class="nav-logo-icon">
+                    <!-- Placeholder logo teks jika gambar tidak ada, tapi tetap support gambar -->
+                         <img src="images/arusbangun.png" alt="ArusBangun Logo" />
+                </div>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#how" data-key="nav_how">Cara Kerja</a></li>
+                <li><a href="#layanan" data-key="nav_service">Layanan</a></li>
+                <li><a href="#harga" data-key="nav_price">Harga</a></li>
+                <li><a href="#testimoni" data-key="nav_testi">Testimoni</a></li>
+            </ul>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="lang-switcher">
+                <button class="lang-btn active" data-lang="id">🇮🇩 ID</button>
+                <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
+                <button class="lang-btn" data-lang="zh">🇨🇳 中文</button>
+            </div>
+            <a href="#cta" class="nav-cta" data-key="nav_cta">Hubungi Kami</a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <!-- <nav>
         <div class="nav-left">
             <a class="nav-logo" href="#">
                 <div class="nav-logo-icon">
@@ -22,9 +49,9 @@
                 <!-- <div>
                     <span class="nav-logo-text">ArusBangun</span>
                     <span class="nav-logo-sub">Solusi Bangun & Renovasi</span>
-                </div> -->
+                </div> --
             </a>
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinks">
                 <li><a href="#how" data-key="nav_how">Cara Kerja</a></li>
                 <li><a href="#layanan" data-key="nav_service">Layanan</a></li>
                 <li><a href="#harga" data-key="nav_price">Harga</a></li>
@@ -39,7 +66,7 @@
             </div>
             <a href="#cta" class="nav-cta" data-key="nav_cta">Hubungi Kami</a>
         </div>
-    </nav>
+    </nav> -->
 
     <!-- Hero Section -->
     <section class="hero">
@@ -300,8 +327,10 @@
                 <p data-key="footer_desc">One Stop solution untuk kebutuhan renovasi dan pembangunan bangunan anda.
                     Transparan, terpercaya dan bertanggung jawab.</p>
                 <!-- <div class="footer-contact-item"><span class="fc-icon">📱</span><span>+62 xxx-xxxx-xxxx(WhatsApp)</span></div> -->
-                <div class="footer-contact-item"><span class="fc-icon">📧</span><span>arusbangunindonesia@gmail.com</span></div>
-                <div class="footer-contact-item"><span class="fc-icon">📍</span><span data-key="footer_area">Semarang</span></div>
+                <div class="footer-contact-item"><span
+                        class="fc-icon">📧</span><span>arusbangunindonesia@gmail.com</span></div>
+                <div class="footer-contact-item"><span class="fc-icon">📍</span><span
+                        data-key="footer_area">Semarang</span></div>
             </div>
             <div class="footer-col">
                 <h4 data-key="footer_service">Layanan</h4>
@@ -342,6 +371,7 @@
             </div>
         </div>
     </footer>
+    <script src="js/script_res.js"></script>
     <script src="js/script.js"></script>
 </body>
 
